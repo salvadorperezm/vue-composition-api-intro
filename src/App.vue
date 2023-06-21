@@ -3,19 +3,39 @@
     <h1 class="header__title">expense tracker</h1>
   </header>
   <section class="section">
-    <p class="section__text">Available funds: 200</p>
-    <p class="section__text--mb">Total expenses: 0</p>
+    <p class="section__text">Available funds: {{ availableFunds }}</p>
+    <p class="section__text--mb">Total expenses: {{ totalExpenses }}</p>
     <hr />
-    <p class="section__text--mt">Funds left: 100</p>
+    <p class="section__text--mt">Funds left: {{ fundsLeft }}</p>
   </section>
   <section class="section">
     <h2>Amount</h2>
-    <input type="number" placeholder="0" class="section__input">
-    <button class="section__button">Add Expense</button>
+    <form class="section__form" @submit.prevent="handleFormSubmit">
+      <input type="number" placeholder="0" class="section__input" v-model="userAmountInput">
+      <button class="section__button">Add Expense</button>
+    </form>
   </section>
 </template>
 
 <script setup>
+import { computed, ref, watch } from 'vue';
+
+const availableFunds = ref(100);
+const totalExpenses = ref(0);
+const userAmountInput = ref(0);
+
+const handleFormSubmit = () => {
+  totalExpenses.value += userAmountInput.value;
+  userAmountInput.value = 0;
+}
+
+const fundsLeft = computed(() => {
+  return availableFunds.value - totalExpenses.value;
+})
+
+watch(fundsLeft, () => {
+  fundsLeft.value < 0 && alert('You are broke!');
+})
 </script>
 
 <style scoped>
