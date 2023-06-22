@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 
 import BaseCard from "./components/BaseCard.vue"
 import UserData from './components/UserData.vue';
@@ -46,6 +46,15 @@ watch(fundsLeft, () => {
 const sayHi = (name) => {
   alert(`Hello world, I am ${name}`);
 }
+
+// there's no equivalent to beforeCreated and created
+console.log('The setup method replaces beforeCreated and created');
+
+// beforeMounted and mounted equivalents
+onBeforeMount(() => console.log('The onBeforeMounted vue property replaces the beforeMounted'));
+onMounted(() => console.log('the onMounted vue property replaces the mounted'));
+
+// there are equivalent properties for every equivalent lifecycle hook from the Options API
 </script>
 
 <style scoped>
