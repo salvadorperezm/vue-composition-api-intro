@@ -2,23 +2,29 @@
   <header class="header">
     <h1 class="header__title">expense tracker</h1>
   </header>
-  <section class="section">
+  <BaseCard>
     <p class="section__text">Available funds: {{ availableFunds }}</p>
     <p class="section__text--mb">Total expenses: {{ totalExpenses }}</p>
     <hr />
     <p class="section__text--mt">Funds left: {{ fundsLeft }}</p>
-  </section>
-  <section class="section">
+  </BaseCard>
+  <BaseCard>
     <h2>Amount</h2>
     <form class="section__form" @submit.prevent="handleFormSubmit">
       <input type="number" placeholder="0" class="section__input" v-model="userAmountInput">
       <button class="section__button">Add Expense</button>
     </form>
-  </section>
+  </BaseCard>
+  <BaseCard>
+    <UserData name="Salvador Perez" :age="23" @say-hi="sayHi" />
+  </BaseCard>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue';
+
+import BaseCard from "./components/BaseCard.vue"
+import UserData from './components/UserData.vue';
 
 const availableFunds = ref(100);
 const totalExpenses = ref(0);
@@ -36,6 +42,10 @@ const fundsLeft = computed(() => {
 watch(fundsLeft, () => {
   fundsLeft.value < 0 && alert('You are broke!');
 })
+
+const sayHi = (name) => {
+  alert(`Hello world, I am ${name}`);
+}
 </script>
 
 <style scoped>
@@ -49,14 +59,6 @@ watch(fundsLeft, () => {
 .header__title {
   font-size: 48px;
   text-transform: capitalize;
-}
-
-.section {
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 16px;
-  margin: 40px auto;
-  max-width: 600px;
 }
 
 .section__button {
