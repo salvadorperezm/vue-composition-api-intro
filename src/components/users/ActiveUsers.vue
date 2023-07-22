@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { computed, inject, ref, watch } from "vue";
+import { inject, ref, watch } from "vue";
 
 import BaseButton from "../ui/BaseButton.vue";
 import BaseCard from "../ui/BaseCard.vue";
