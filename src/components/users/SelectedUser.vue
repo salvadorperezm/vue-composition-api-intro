@@ -6,7 +6,7 @@
             <input type="text" placeholder="Filter items" class="selected-user__input"
                 v-model.trim="filteredProjectsInput" />
             <div class="selected-user__projects">
-                <UserProject v-for="project in user.projects" :key="project.id" :title="project.title" />
+                <UserProject v-for="project in filteredProjects" :key="project.id" :title="project.title" />
             </div>
         </div>
     </BaseCard>
@@ -23,8 +23,13 @@ const user = inject('selectedUser');
 const filteredProjectsInput = ref('');
 const filteredProjects = ref([]);
 
+watch(user, (newValue, _) => {
+    filteredProjectsInput.value = '';
+    filteredProjects.value = newValue.projects;
+});
+
 watch(filteredProjectsInput, () => {
-    filteredProjectsInput === '' ? filteredProjects.value = user.value.projects : filteredProjects.value = user.value.projects.filter((project) => project.title.includes(filteredProjectsInput.value))
+    filteredProjectsInput === '' ? filteredProjects.value = user.value.projects : filteredProjects.value = user.value.projects.filter((project) => project.title.toLowerCase().includes(filteredProjectsInput.value.toLowerCase()))
 });
 
 </script>
