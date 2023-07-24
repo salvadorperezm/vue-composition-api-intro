@@ -3,8 +3,10 @@
         <h1 class="active-users__title">Active Users</h1>
         <input type="text" placeholder="Filter items" class="active-users__input" v-model.trim="filteredUsersInput" />
         <div class="active-users__buttons">
-            <BaseButton title="Sort Ascending" />
-            <BaseButton title="Sort Descending" />
+            <BaseButton title="Sort Ascending" type="asc" :currentSortingMethod="currentSortingMethod"
+                @toggle-sort="toggleSorting" />
+            <BaseButton title="Sort Descending" type="desc" :currentSortingMethod="currentSortingMethod"
+                @toggle-sort="toggleSorting" />
         </div>
         <div class="active-users__cards">
             <UserCard v-for="user in filteredUsers" :key="user.id" :user="user" @select-user="selectUser" />
@@ -88,6 +90,16 @@ const filteredUsers = ref(users);
 watch(filteredUsersInput, () => {
     filteredUsersInput === '' ? filteredUsers.value = users : filteredUsers.value = users.filter((user) => user.name.toLowerCase().includes(filteredUsersInput.value.toLowerCase()))
 })
+
+const currentSortingMethod = ref('asc');
+
+const toggleSorting = (value) => {
+    currentSortingMethod.value = value;
+}
+
+watch([filteredUsers, currentSortingMethod], () => {
+    currentSortingMethod.value === 'asc' ? filteredUsers.value.sort((a, b) => a.name > b.name ? 1 : -1) : filteredUsers.value.sort((a, b) => a.name < b.name ? 1 : -1);
+});
 </script>
 
 <style scoped>
