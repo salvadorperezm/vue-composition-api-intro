@@ -1,10 +1,13 @@
 <template>
-    <button class="button">{{ title }}</button>
+    <button class="button" :class="{ active: type === currentSortingMethod }" @click="$emit('toggleSort', type)">{{ title
+    }}</button>
 </template>
 
 <script setup>
 const props = defineProps({
-    title: String
+    title: String,
+    type: String,
+    currentSortingMethod: String
 })
 </script>
 
@@ -22,7 +25,7 @@ const props = defineProps({
     background-color: #eeedff;
 }
 
-.button--active {
+.active {
     background-color: #232671;
     border: 1px solid transparent;
     color: #ffffff;
